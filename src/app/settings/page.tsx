@@ -64,14 +64,14 @@ export default function SettingsPage() {
             <div>
               <label className="block text-sm font-medium mb-2">主题色</label>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-                {themePresets.map((theme) => (
+                {themePresets.map((preset) => (
                   <button
-                    key={theme.name}
-                    onClick={() => handleThemeChange(theme.primary)}
+                    key={preset.name}
+                    onClick={() => handleThemeChange(preset.primary)}
                     className={`
                       p-4 rounded-lg border transition-all
                       ${
-                        theme.primary === theme.primary
+                        preset.primary === theme.primary
                           ? "ring-2 ring-primary"
                           : "hover:bg-accent"
                       }
@@ -81,10 +81,10 @@ export default function SettingsPage() {
                       <div
                         className="w-6 h-6 rounded-full"
                         style={{
-                          backgroundColor: `hsl(${theme.primary})`,
+                          backgroundColor: `hsl(${preset.primary})`,
                         }}
                       />
-                      <span className="text-sm">{theme.name}</span>
+                      <span className="text-sm">{preset.name}</span>
                     </div>
                   </button>
                 ))}
@@ -116,25 +116,6 @@ export default function SettingsPage() {
                   跟随系统
                 </Button>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-lg border p-4">
-          <h2 className="text-lg font-semibold mb-4">预览</h2>
-          <div className="space-y-4">
-            <Button className="w-full">主要按钮</Button>
-            <Button variant="outline" className="w-full">
-              次要按钮
-            </Button>
-            <div className="p-4 bg-muted rounded-lg">
-              <p className="text-muted-foreground">次要文本</p>
-            </div>
-            <div className="flex gap-2">
-              <div className="p-4 bg-destructive text-destructive-foreground rounded-lg">
-                危险提示
-              </div>
-              <div className="p-4 bg-primary/10 rounded-lg">主题色背景</div>
             </div>
           </div>
         </div>
