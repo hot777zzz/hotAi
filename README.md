@@ -1,3 +1,5 @@
+Ai对话的标准模版，包含样式设置和模型的切换以及全局提示词，欢迎和我一起开发
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
