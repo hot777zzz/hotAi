@@ -3,15 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-/**
- * 扩展原生 textarea 元素的属性类型
- * 这允许我们在需要时添加自定义属性
- */
-export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  // 在这里可以添加自定义属性
-  // 例如: variant?: 'default' | 'outline';
-}
+export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, ...props }, ref) => {
