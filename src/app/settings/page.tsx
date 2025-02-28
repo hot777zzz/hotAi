@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/lib/hooks/use-theme";
 
@@ -29,23 +28,9 @@ const themePresets = [
 
 export default function SettingsPage() {
   const { theme, updateTheme } = useTheme();
-  const [language, setLanguage] = useState("zh");
-  const [notifications, setNotifications] = useState(true);
 
   const handleThemeChange = (primary: string) => {
     updateTheme({ primary });
-  };
-
-  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setLanguage(e.target.value);
-    // TODO: 实现语言切换逻辑
-  };
-
-  const handleNotificationsChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setNotifications(e.target.checked);
-    // TODO: 实现通知设置逻辑
   };
 
   const handleModeChange = (mode: "light" | "dark" | "system") => {
