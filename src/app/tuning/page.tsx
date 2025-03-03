@@ -14,8 +14,8 @@ export default function TuningPage() {
               </label>
               <select className="w-full rounded-md border px-3 py-2">
                 <option value="gpt-4o">GPT-4o</option>
-                <option value="gpt-4o-mini">Deepseek R1</option>
-                <option value="gpt-3.5-turbo">Claude3.5-sonnet</option>
+                <option value="deepseek-r1">Deepseek R1</option>
+                <option value="claude-3-5-sonnet">Claude3.5-sonnet</option>
               </select>
             </div>
           </div>
@@ -28,7 +28,7 @@ export default function TuningPage() {
           <textarea
             className="w-full min-h-[200px] rounded-md border px-3 py-2"
             placeholder="输入系统提示词..."
-            defaultValue="You are a helpful assistant to codeing with python..."
+            defaultValue=""
           />
         </div>
       </div>
