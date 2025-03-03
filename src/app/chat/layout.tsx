@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { cn } from "@/lib/utils";
 
@@ -17,7 +17,6 @@ export default function ChatLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const router = useRouter();
 
   const handleSignOut = () => {
     document.cookie = "isLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 GMT";

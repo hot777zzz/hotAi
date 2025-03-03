@@ -24,7 +24,8 @@ export default function LoginCard() {
       } else {
         setError(data.message || "登录失败");
       }
-    } catch (error) {
+    } catch (e) {
+      console.log(e);
       setError("登录失败");
     }
   };
