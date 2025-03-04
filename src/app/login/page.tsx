@@ -14,7 +14,7 @@ export default function LoginPage() {
     try {
       const res = await login({ username, password });
       // 保存 token
-      localStorage.setItem("token", res.token);
+      localStorage.setItem("token", res.data.token);
       // 跳转到首页
       router.push("/");
     } catch (error) {
