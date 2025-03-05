@@ -1,7 +1,7 @@
 "use client";
 
-import { Message } from "@/lib/types";
-import { ChatMessage } from "./chat-message";
+import { Message } from "@/types/chat";
+import { cn } from "@/lib/utils";
 
 interface ChatListProps {
   messages: Message[];
@@ -9,16 +9,27 @@ interface ChatListProps {
 
 export function ChatList({ messages }: ChatListProps) {
   return (
-    <div className="flex flex-col space-y-4 px-4">
-      {messages.length === 0 ? (
-        <div className="text-center text-gray-500 py-8">
-          开始你的第一次对话吧
+    <div className="flex-1 space-y-4 p-4">
+      {messages.map((message, index) => (
+        <div
+          key={index}
+          className={cn(
+            "flex w-full",
+            message.role === "user" ? "justify-end" : "justify-start"
+          )}
+        >
+          <div
+            className={cn(
+              "rounded-lg px-4 py-2 max-w-[80%]",
+              message.role === "user"
+                ? "bg-primary text-primary-foreground"
+                : "bg-muted"
+            )}
+          >
+            {message.content}
+          </div>
         </div>
-      ) : (
-        messages.map((message, index) => (
-          <ChatMessage key={index} message={message} />
-        ))
-      )}
+      ))}
     </div>
   );
 }
