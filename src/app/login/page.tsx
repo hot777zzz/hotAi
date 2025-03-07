@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { UserService } from "@/services/user";
+import { AxiosError } from "axios";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -18,33 +20,26 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (!res.ok) {
-        throw new Error("登录失败");
-      }
-
-      const data = await res.json();
-
-      // 使用 cookie 存储 token
-      document.cookie = `token=${data.token}; path=/`;
-      localStorage.setItem("userId", data.userId.toString());
+      await UserService.login(username, password);
 
       setTimeout(() => {
         router.push("/chat");
         router.refresh();
       }, 100);
-    } catch (err) {
-      setError("用户名或密码错误");
-      console.error("登录错误:", err);
+    } catch (error) {
+      console.error("登录错误:", error);
+
+      if (error instanceof AxiosError) {
+        setError(
+          error.response?.data?.message || "登录失败，请检查用户名和密码"
+        );
+      } else if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("登录失败，请稍后重试");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 

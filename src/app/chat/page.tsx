@@ -6,12 +6,16 @@ import { ChatHistory } from "@/components/chat/chat-history";
 import { useState } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { Message } from "@/types/chat";
+import { ChatService } from "@/services/chat";
+import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
 
 export default function ChatPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isToolTipOpen, setIsToolTipOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSendMessage = async (content: string) => {
     try {
@@ -23,36 +27,20 @@ export default function ChatPage() {
       };
       setMessages((prev) => [...prev, userMessage]);
 
-      const token = localStorage.getItem("token");
-
-      const response = await fetch("http://localhost:3000/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        credentials: "include",
-        body: JSON.stringify({ message: content }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        throw new Error(errorData?.message || "请求失败");
-      }
-
-      const data = await response.json();
-
-      const assistantMessage: Message = {
-        role: "assistant",
-        content: data.choices[0].message.content,
-      };
+      const assistantMessage = await ChatService.sendMessage(content);
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("发送消息失败:", error);
-      // 添加错误消息到对话中
+
+      if (error instanceof AxiosError && error.response?.status === 401) {
+        router.push("/login");
+        return;
+      }
+
       const errorMessage: Message = {
         role: "assistant",
-        content: "抱歉，消息发送失败。请稍后重试。",
+        content:
+          error instanceof Error ? error.message : "消息发送失败，请稍后重试",
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
