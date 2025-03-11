@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { cn } from "@/lib/utils";
@@ -17,9 +18,15 @@ export default function ChatLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-
+  const router = useRouter();
   const handleSignOut = () => {
-    document.cookie = "isLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    // 清除 token cookie
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    // 清除 localStorage 中的 token
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    // 跳转到登录页
+    router.push("/login");
   };
 
   return (

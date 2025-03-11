@@ -5,7 +5,7 @@ interface RequestOptions extends AxiosRequestConfig {
 }
 
 export class HttpService {
-  private static baseUrl = "http://localhost:3000";
+  private static baseUrl = process.env.NEXT_PUBLIC_API_URL;
   private static instance: AxiosInstance;
 
   private static getInstance(): AxiosInstance {

@@ -36,10 +36,12 @@ export class UserService {
   static setUserAuth(token: string, userId: number) {
     localStorage.setItem("token", token);
     localStorage.setItem("userId", userId.toString());
+    document.cookie = `token=${token}; path=/;`;
   }
 
   static logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+    document.cookie = `token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
   }
 }

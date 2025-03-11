@@ -2,17 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 import { Button } from "@/components/ui/button";
 import { UserService } from "@/services/user";
 import { AxiosError } from "axios";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,10 +21,7 @@ export default function LoginPage() {
     try {
       await UserService.login(username, password);
 
-      setTimeout(() => {
-        router.push("/chat");
-        router.refresh();
-      }, 100);
+      router.push("/chat");
     } catch (error) {
       console.error("登录错误:", error);
 
