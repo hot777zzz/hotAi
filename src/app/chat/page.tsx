@@ -18,6 +18,8 @@ export default function ChatPage() {
   const router = useRouter();
 
   const handleSendMessage = async (content: string) => {
+    if (!content.trim()) return;
+
     try {
       setIsLoading(true);
 
