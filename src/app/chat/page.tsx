@@ -29,8 +29,24 @@ export default function ChatPage() {
       };
       setMessages((prev) => [...prev, userMessage]);
 
-      const assistantMessage = await ChatService.sendMessage(content);
+      // 创建助手消息
+      const assistantMessage: Message = {
+        role: "assistant",
+        content: "",
+      };
       setMessages((prev) => [...prev, assistantMessage]);
+
+      // 处理流式响应
+      for await (const chunk of ChatService.sendMessage(content)) {
+        setMessages((prev) => {
+          const newMessages = [...prev];
+          const lastMessage = newMessages[newMessages.length - 1];
+          if (lastMessage.role === "assistant") {
+            lastMessage.content += chunk;
+          }
+          return newMessages;
+        });
+      }
     } catch (error) {
       console.error("发送消息失败:", error);
 

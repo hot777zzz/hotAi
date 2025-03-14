@@ -2,6 +2,7 @@
 
 import { Message } from "@/types/chat";
 import { cn } from "@/lib/utils";
+import ReactMarkdown from "react-markdown";
 
 interface ChatListProps {
   messages: Message[];
@@ -23,10 +24,14 @@ export function ChatList({ messages }: ChatListProps) {
               "rounded-lg px-4 py-2 max-w-[80%]",
               message.role === "user"
                 ? "bg-primary text-primary-foreground"
-                : "bg-muted"
+                : "bg-muted prose dark:prose-invert"
             )}
           >
-            {message.content}
+            {message.role === "user" ? (
+              message.content
+            ) : (
+              <ReactMarkdown>{message.content}</ReactMarkdown>
+            )}
           </div>
         </div>
       ))}
