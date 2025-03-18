@@ -14,23 +14,25 @@ export function ChatList({ messages }: ChatListProps) {
       {messages.map((message, index) => (
         <div
           key={index}
-          className={cn(
-            "flex w-full",
+          className={`flex ${
             message.role === "user" ? "justify-end" : "justify-start"
-          )}
+          }`}
         >
           <div
-            className={cn(
-              "rounded-lg px-4 py-2 max-w-[80%]",
+            className={`max-w-[80%] rounded-lg px-4 py-2 ${
               message.role === "user"
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted prose dark:prose-invert"
-            )}
+                ? "bg-blue-500 text-white"
+                : "bg-gray-100 text-gray-800"
+            }`}
           >
-            {message.role === "user" ? (
-              message.content
+            {message.isLoading ? (
+              <div className="flex items-center space-x-2">
+                <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.3s]"></div>
+                <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.15s]"></div>
+                <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500"></div>
+              </div>
             ) : (
-              <ReactMarkdown>{message.content}</ReactMarkdown>
+              <div className="whitespace-pre-wrap">{message.content}</div>
             )}
           </div>
         </div>

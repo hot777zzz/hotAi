@@ -23,30 +23,35 @@ export default function ChatPage() {
     try {
       setIsLoading(true);
 
+      // 添加用户消息
       const userMessage: Message = {
         role: "user",
         content,
       };
       setMessages((prev) => [...prev, userMessage]);
 
-      // 创建助手消息
-      const assistantMessage: Message = {
+      // 添加一个临时的加载消息
+      const loadingMessage: Message = {
         role: "assistant",
-        content: "",
+        content: "思考中...",
+        isLoading: true,
       };
-      setMessages((prev) => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, loadingMessage]);
 
-      // 处理流式响应
-      for await (const chunk of ChatService.sendMessage(content)) {
-        setMessages((prev) => {
-          const newMessages = [...prev];
-          const lastMessage = newMessages[newMessages.length - 1];
-          if (lastMessage.role === "assistant") {
-            lastMessage.content += chunk;
-          }
-          return newMessages;
-        });
-      }
+      // 发送请求并获取完整响应
+      const responseContent = await ChatService.sendMessage(content);
+
+      // 移除加载消息，添加真正的助手消息
+      setMessages((prev) => {
+        const filtered = prev.filter((msg) => !msg.isLoading);
+        return [
+          ...filtered,
+          {
+            role: "assistant",
+            content: responseContent,
+          },
+        ];
+      });
     } catch (error) {
       console.error("发送消息失败:", error);
 
@@ -55,12 +60,20 @@ export default function ChatPage() {
         return;
       }
 
-      const errorMessage: Message = {
-        role: "assistant",
-        content:
-          error instanceof Error ? error.message : "消息发送失败，请稍后重试",
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      // 移除加载消息，添加错误消息
+      setMessages((prev) => {
+        const filtered = prev.filter((msg) => !msg.isLoading);
+        return [
+          ...filtered,
+          {
+            role: "assistant",
+            content:
+              error instanceof Error
+                ? error.message
+                : "消息发送失败，请稍后重试",
+          },
+        ];
+      });
     } finally {
       setIsLoading(false);
     }
