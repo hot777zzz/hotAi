@@ -5,11 +5,11 @@ Ai对话的标准模版，包含样式设置和模型的切换以及全局提示
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 目前已经实现的功能有：
-[checkbox] 登录鉴权
-[checkbox] 聊天记录
-[checkbox] 参数调整
-[checkbox] 个性化颜色主题
-[checkbox] 深色浅色模式
+## 登录鉴权
+## 聊天记录
+## 参数调整
+## 个性化颜色主题
+## 深色浅色模式
 
 
 ## Deploy on Vercel
