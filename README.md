@@ -1,40 +1,100 @@
-Ai对话的标准模版，包含样式设置和模型的切换以及全局提示词，欢迎和我一起开发
+HotAI 聊天应用
+一个基于 Next.js 和 React 构建的现代化 AI 聊天应用，支持多主题切换和本地聊天历史记录。
 
-预览地址：https://hot-ai.vercel.app/chat
+## 功能特点
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🎨 支持亮色/暗色主题切换
+💬 实时聊天界面
+📝 本地存储聊天历史
+📱 响应式设计，适配移动端和桌面端
+🔄 多对话管理，可在不同对话间切换
+🔒 用户认证系统
 
-## Getting Started
+## 技术栈
 
-First, run the development server:
+- 前端框架: Next.js 15.1.7
+- UI 库: React 19.0.0
+- 样式: Tailwind CSS
+- 状态管理: React Hooks
+- 本地存储: localStorage API
+- 图标: Lucide Icons
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 预览地址
+
+https://hot-ai.vercel.app/chat
+
+## 项目结构
+
+```开源/ai/hotai/README.md
+<code_block_to_apply_changes_from>
+src/
+├── app/                  # 应用页面
+│   ├── chat/             # 聊天页面
+│   ├── login/            # 登录页面
+│   ├── settings/         # 设置页面
+│   └── tuning/           # 模型调优页面
+├── components/           # 可复用组件
+│   ├── chat/             # 聊天相关组件
+│   ├── login/            # 登录相关组件
+│   ├── nav/              # 导航组件
+│   ├── theme/            # 主题相关组件
+│   └── ui/               # UI 基础组件
+├── services/             # 服务层
+├── types/                # 类型定义
+└── lib/                  # 工具函数
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 开始使用
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 安装依赖
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+```
 
-## Learn More
+### 开发环境运行
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 构建生产版本
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm build
+```
 
-## Deploy on Vercel
+### 启动生产服务器
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 主要功能说明
+
+### 聊天历史记录
+
+应用会自动保存用户的聊天历史记录到本地存储中，用户可以：
+
+- 查看所有历史对话
+- 在不同对话间切换
+- 开始新的对话
+- 每个对话会自动以第一条消息作为标题
+
+### 主题切换
+
+支持亮色和暗色两种主题模式，会根据用户系统设置自动切换，也可以手动选择。
+
+### 响应式设计
+
+- 在桌面端显示侧边栏和聊天区域
+- 在移动端通过滑动菜单访问侧边栏
+- 自适应不同屏幕尺寸的布局
+
+## 贡献指南
+
+欢迎提交 Pull Request 或创建 Issue 来帮助改进这个项目。
+
+## 许可证
+
+[MIT](LICENSE)
