@@ -10,7 +10,7 @@ import { Menu, X } from "lucide-react";
 
 const links = [
   { name: "聊天", href: "/chat" },
-  { name: "微调广场", href: "/tuning" },
+  { name: "模型参数", href: "/tuning" },
   { name: "设置", href: "/settings" },
 ];
 
