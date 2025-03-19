@@ -23,10 +23,14 @@ HotAI 聊天应用
 
 https://hot-ai.vercel.app/chat
 
+## 配套后端地址
+
+https://github.com/hot777zzz/hot-ai-backend
+
 ## 项目结构
 
 ```开源/ai/hotai/README.md
-<code_block_to_apply_changes_from>
+<code_block_to_apply_changes_from_file>
 src/
 ├── app/                  # 应用页面
 │   ├── chat/             # 聊天页面
