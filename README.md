@@ -13,7 +13,7 @@ HotAI 聊天应用模板
 ## 技术栈
 
 - 前端框架: Next.js 15.1.7
-- UI 库: React 19.0.0
+- UI 库: React 19.0.0原生
 - 样式: Tailwind CSS
 - 状态管理: React Hooks
 - 本地存储: localStorage API
