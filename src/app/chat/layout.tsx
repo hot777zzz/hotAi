@@ -12,6 +12,7 @@ const links = [
   { name: "聊天", href: "/chat" },
   { name: "模型参数", href: "/tuning" },
   { name: "设置", href: "/settings" },
+  { name: "捐赠", href: "/donate" },
 ];
 
 export default function ChatLayout({
