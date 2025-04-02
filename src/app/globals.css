@@ -57,3 +57,34 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ChatGPT打字机效果 */
+.chat-typewriter {
+  display: inline-block;
+  position: relative;
+}
+
+.chat-typewriter .cursor {
+  display: inline-block;
+  width: 8px;
+  height: 18px;
+  background-color: currentColor;
+  margin-left: 2px;
+  position: relative;
+  top: 3px;
+  border-radius: 1px;
+  opacity: 0.8;
+  animation: cursor-blink 0.8s steps(2) infinite;
+}
+
+@keyframes cursor-blink {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}

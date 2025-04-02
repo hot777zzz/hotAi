@@ -37,6 +37,13 @@ export function ChatList({ messages }: ChatListProps) {
                 <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500 dark:bg-gray-400 [animation-delay:-0.15s]"></div>
                 <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500 dark:bg-gray-400"></div>
               </div>
+            ) : message.isStreaming ? (
+              <div className="whitespace-pre-wrap break-words">
+                <span className="chat-typewriter">
+                  {message.content}
+                  <span className="cursor"></span>
+                </span>
+              </div>
             ) : (
               <div className="whitespace-pre-wrap break-words">
                 {message.content}

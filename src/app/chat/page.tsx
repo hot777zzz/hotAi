@@ -160,33 +160,73 @@ export default function ChatPage() {
       // 更新聊天历史
       updateChatHistory(updatedMessages);
 
-      // 添加一个临时的加载消息
-      const loadingMessage: Message = {
+      // 添加一个临时的助手消息
+      const assistantMessage: Message = {
         role: "assistant",
-        content: "思考中...",
-        isLoading: true,
+        content: "",
+        isLoading: false,
+        isStreaming: true,
       };
-      setMessages((prev) => [...prev, loadingMessage]);
+      setMessages((prev) => [...prev, assistantMessage]);
 
       // 如果是移动设备，发送消息时自动关闭侧边栏
       if (isMobile && isSidebarOpen) {
         setIsSidebarOpen(false);
       }
 
-      // 发送请求并获取完整响应
-      const responseContent = await ChatService.sendMessage(content);
+      // 使用流式API
+      let fullResponse = "";
+      let lastUpdateTime = Date.now();
+      const typingDelay = 15; // 最小更新间隔(毫秒)
 
-      // 移除加载消息，添加真正的助手消息
-      const finalMessages = updatedMessages.concat([
-        {
-          role: "assistant",
-          content: responseContent,
-        },
-      ]);
+      const updateMessageWithDelay = (text: string) => {
+        fullResponse = text;
 
-      setMessages(finalMessages);
+        const now = Date.now();
+        // 控制更新频率，避免过于频繁的状态更新
+        if (now - lastUpdateTime >= typingDelay) {
+          lastUpdateTime = now;
+          setMessages((prevMessages) => {
+            const lastMessage = prevMessages[prevMessages.length - 1];
+            if (lastMessage.role === "assistant" && lastMessage.isStreaming) {
+              const updatedMessages = [...prevMessages];
+              updatedMessages[updatedMessages.length - 1] = {
+                ...lastMessage,
+                content: fullResponse,
+              };
+              return updatedMessages;
+            }
+            return prevMessages;
+          });
+        }
+      };
+
+      await ChatService.streamMessage(content, (chunk) => {
+        updateMessageWithDelay(fullResponse + chunk);
+      });
+
+      // 完成流式响应，更新最终消息
+      setMessages((prevMessages) => {
+        const updatedMessages = [...prevMessages];
+        const lastMessage = updatedMessages[updatedMessages.length - 1];
+        if (lastMessage.role === "assistant" && lastMessage.isStreaming) {
+          updatedMessages[updatedMessages.length - 1] = {
+            role: "assistant",
+            content: fullResponse,
+            isStreaming: false,
+          };
+        }
+        return updatedMessages;
+      });
 
       // 更新聊天历史
+      const finalMessages = [
+        ...updatedMessages,
+        {
+          role: "assistant" as const,
+          content: fullResponse,
+        },
+      ];
       updateChatHistory(finalMessages);
     } catch (error) {
       console.error("发送消息失败:", error);
@@ -196,9 +236,24 @@ export default function ChatPage() {
         return;
       }
 
-      // 移除加载消息，添加错误消息
+      // 移除正在流式响应的消息，添加错误消息
+      setMessages((prevMessages) => {
+        const filteredMessages = prevMessages.filter((msg) => !msg.isStreaming);
+        return [
+          ...filteredMessages,
+          {
+            role: "assistant",
+            content:
+              error instanceof Error
+                ? error.message
+                : "消息发送失败，请稍后重试",
+          },
+        ];
+      });
+
+      // 更新聊天历史
       const errorMessages = messages
-        .filter((msg) => !msg.isLoading)
+        .filter((msg) => !msg.isStreaming)
         .concat([
           {
             role: "assistant",
@@ -208,10 +263,6 @@ export default function ChatPage() {
                 : "消息发送失败，请稍后重试",
           },
         ]);
-
-      setMessages(errorMessages);
-
-      // 更新聊天历史
       updateChatHistory(errorMessages);
     } finally {
       setIsLoading(false);
