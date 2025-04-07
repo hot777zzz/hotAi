@@ -55,7 +55,7 @@ export default function ChatPage() {
     if (messages.length === 0 && !currentChatId) {
       const welcomeMessage: Message = {
         role: "assistant",
-        content: "你好,这是由Hot7开发的开源ai调用项目,请开始和我对话吧",
+        content: "yoyoyoyo!My name is Hotty,nice to meet you!",
       };
       setMessages([welcomeMessage]);
 
